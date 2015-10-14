@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+
+<button onclick="carregaContatos()">Consultar</button>
+<input type="text" id="idContato" />
+<p id="demo"></p>
+
+
+<button onclick="incluirContato()">incluir</button>
+<input type="text" id="dadosContato" />
+
+<script>
+function carregaContatos() {
+  var xhttp = new XMLHttpRequest();
+  var url="/api/contatos";
+	  
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+	  var id = document.getElementById("idContato").value;
+	  if(id && id.length>0){
+	    url = url+"/"+id;
+	  }
+      document.getElementById("demo").innerHTML = xhttp.responseText;
+    }
+  }
+  xhttp.open("GET", url, true);
+  xhttp.send();
+}
+
+function incluirContato() {
+  var xhttp = new XMLHttpRequest();
+  var url="/api/contatos";
+  var dados = document.getElementById("dadosContato").value;	  
+  
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 201) {
+      document.getElementById("demo").innerHTML = "contato incluido";
+    }
+  }
+  xhttp.open("POST", url, true);
+  xhttp.setRequestHeader("Content-type", "Application/json");
+  xhttp.send(dados);
+}
+
+</script>
+
+</body>
+</html>
